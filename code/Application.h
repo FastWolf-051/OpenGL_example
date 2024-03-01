@@ -1,10 +1,12 @@
-#include <code/UseHeaders.h>
+﻿#include <code/UseHeaders.h>
 #if !defined(Application)
 #define Application
 // User-define
 #define null 0
 // user typedef
 typedef unsigned int UnInt;
+// typedef a string
+typedef const char* CharArray;
 // For not see C2065 errors
 using namespace std;
 namespace App {
@@ -21,17 +23,12 @@ namespace App {
 			glfwSetWindowShouldClose(window, true);
 		}
 	};
-	// Change console title
-	static void __fastcall CmdTitle(const char* title) {
-		// Windows.h function
-		SetConsoleTitleA(title);
-	};
 	// Window height
 	static const unsigned __int16 Win_Width = 400;
 	// Window width
 	static const unsigned __int16 Win_Height = 400;
 	// Window title
-	static const char Win_Title[7] = "maybe?";
+	static const char* Win_Title = "OpenGL";
 	// Sucess code
 	__int32 sucsess;
 	// Log data

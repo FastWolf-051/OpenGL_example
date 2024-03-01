@@ -1,11 +1,19 @@
+// contains all additional headers that needs to work
 #include <code/UseHeaders.h>
+// namespace for app
 #include <code/Application.h>
+// opengl fragment shader
 #include <code/Shaders/GLSL_FragmentShader.h>
+// opengl vertex shader
 #include <code/Shaders/GLSL_VertexShader.h>
+// my class console
+#include <code/Console.hpp>
 
 using namespace std;
 
 int main() {
+	// In begin,we set a color to background of console
+	DebugCmd::SetBGColor(14);
 	// Inittalize OpenGL
 	glfwInit();
 	// Use major version of OpenGL
@@ -21,7 +29,7 @@ int main() {
 	// When window not created
 	if (Window == null) {
 		// Show info
-		cout << "Failed to create OpenGL window" << endl;
+		DebugCmd::DisplayError("Failed to create OpenGL window");
 		// Instantly close a window
 		glfwTerminate();
 		// Return error code
@@ -30,20 +38,20 @@ int main() {
 	// When window created with no errors
 	else {
 		// Show info
-		cout << "OpenGL window created" << endl;
+		DebugCmd::DisplayLog("OpenGL window created");
 	}
 	// Focusing on our window
 	glfwMakeContextCurrent(Window);
 	// When GLAD not loaded
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		// Show info
-		cout << "GLAD initalize failed" << endl;
+		DebugCmd::DisplayError("GLAD initalize failed");
 		return -1;
 	}
 	// When GLAD loaded
 	else {
 		// Show info 
-		cout << "GLAD initalized" << endl;
+		DebugCmd::DisplayLog("GLAD initalized");
 	}
 	// Set window viewport
 	glViewport(null, null, App::Win_Width, App::Win_Height);
@@ -58,12 +66,13 @@ int main() {
 	glfwSetWindowIcon(Window, 1, image);
 	// Triangle coordinates
 	float verticles[] = {
+		/* POSITIONS */   /* Colors */
 		// 1st point
-		-0.5f,-0.5f,0.0f,
+		-0.5f,-0.5f,0.0f, 1.0f,1.0f,0.0f,
 		// 2nd point
-		0.5f,-0.5f,0.0f,
+		0.5f,-0.5f,0.0f,  0.0f,1.0f,1.0f,
 		// 3rd point
-		0.0f,0.5f,0.0f
+		0.0f,0.5f,0.0f,   1.0f,0.0f,1.0f
 	};
 	// VAO NEED TO BE BIND BEFORE VBO lol
 	// vertex array object
@@ -94,11 +103,11 @@ int main() {
 	if (!App::sucsess) {
 		// gets info log from shader 
 		glGetShaderInfoLog(vertexShader, 512, null, App::infoLog);
-		cout << "VertexShader compiling error" << endl;
+		DebugCmd::DisplayError("VertexShader compiling error");
 	}
 	// if no errors
 	else{
-		cout << "VertexShader compiled" << endl;
+		DebugCmd::DisplayLog("VertexShader compiled");
 	}
 	// fragment shader
 	unsigned int fragmentShader;
@@ -136,17 +145,22 @@ int main() {
 	// (void*) - typecast to - pointer to void
 	// void* uses when needs access to work with different poniters type in 1 code
 	// stride = 3* sizeof(float)
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	// 6*siezof(float) - takes 5,12,28,24 elements
+	/* POSITION ATTRIBUTE */
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	// enable vertex attribute pointer
 	glEnableVertexAttribArray(0);
+	/* COLOR ATTRIBUTE */
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),(void*)(3*sizeof(float)));
+	glEnableVertexAttribArray(1);
 	// Main program loop
 	while (!glfwWindowShouldClose(Window)) {
 		// Set console title
-		App::CmdTitle("App debug");
+		DebugCmd::CmdTitle("App Debug");
 		// Use keyboard input
 		App::processInput(Window);
 		// Set color to window
-		glClearColor(0.3f, 0.5f, 0.8f, 1.0f);
+		glClearColor(0.6f, 0.9f, 0.8f, 1.0f);
 		// Clear window
 		glClear(GL_COLOR_BUFFER_BIT);
 		// draw triangle
