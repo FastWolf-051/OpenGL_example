@@ -13,7 +13,7 @@ using namespace std;
 
 int main() {
 	// In begin,we set a color to background of console
-	DebugCmd::SetBGColor(14);
+	DebugCmd::SetBGColor(3);
 	// Inittalize OpenGL
 	glfwInit();
 	// Use major version of OpenGL
@@ -122,11 +122,11 @@ int main() {
 	if (!App::sucsess) {
 		// gets info log from shader 
 		glGetShaderInfoLog(fragmentShader, 512, null, App::infoLog);
-		cout << "FragmentShader compiling error" << endl;
+		DebugCmd::DisplayError("FragmentShader compiling error");
 	}
 	// if no errors
 	else {
-		cout << "FragmentShader compiled" << endl;
+		DebugCmd::DisplayLog("FragmentShader compiled");
 	}
 	// create a shader program to joins 2 shaders
 	unsigned int shaderProgram;
@@ -160,7 +160,7 @@ int main() {
 		// Use keyboard input
 		App::processInput(Window);
 		// Set color to window
-		glClearColor(0.6f, 0.9f, 0.8f, 1.0f);
+		glClearColor(0.9f, 0.7f, 0.0f, 1.0f);
 		// Clear window
 		glClear(GL_COLOR_BUFFER_BIT);
 		// draw triangle
@@ -180,9 +180,11 @@ int main() {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteProgram(shaderProgram);
-	cout << "Window closed";
+	DebugCmd::DisplayLog("Window closed");
 	// When Program closes
 	glfwTerminate();
+	// not close when OpenGL window closes
+	AppWait();
 	// Return default code
 	return null;
 }

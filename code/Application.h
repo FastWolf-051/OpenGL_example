@@ -3,12 +3,15 @@
 #define Application
 // User-define
 #define null 0
+// rename std::cin,get() method
+#define AppWait cin.get
 // user typedef
 typedef unsigned int UnInt;
 // typedef a string
 typedef const char* CharArray;
 // For not see C2065 errors
 using namespace std;
+// simple namespace
 namespace App {
 	// When user resizes a window,glViewport needs to be change to window size
 	static void framebuffer_size_callback(GLFWwindow* window, __int16 width, __int16 height) {
