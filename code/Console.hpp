@@ -4,10 +4,12 @@
 #include <code/Application.h>
 #define COL_RED  "\x1b[31m"
 #define COL_GREEN "\x1b[32m"
+#define COL_PINK "\x1b[35m"
 #define COL_RESET "\x1b[0m"
 class DebugCmd final {
 private:
 	enum ConsoleColors {
+
 		ÑC_Black = 1,
 		CC_White,
 		CC_Cyan,
@@ -29,11 +31,11 @@ public:
 	static inline void  __fastcall CmdTitle(CharArray WinTitle) {
 		SetConsoleTitleA(WinTitle);
 	};
-	static inline void DisplayLog(CharArray LogData) {
-		cout << COL_GREEN << "[Log]: " << LogData << COL_RESET << endl;
+	static inline void __cdecl DisplayLog(CharArray LogData) {
+		cout << COL_GREEN << "[LOG]: " << LogData << endl;
 	};
-	static inline void DisplayError(CharArray Error) {
-		cout << COL_RED << "[Error]: " << Error << COL_RESET << endl;
+	static inline void __cdecl DisplayError(CharArray Error) {
+		cout << COL_RED << "[Error]: " << Error << endl;
 	}
 	static inline void __stdcall SetBGColor(UnInt TColor) {
 		switch (TColor) {
@@ -55,5 +57,8 @@ public:
 			case CC_LightRed: system("color c0"); break;
 		}
 	};
+	static inline void __cdecl GetAppPath(const char* argv) {
+		cout << COL_PINK << "[EXE_PATH]: " << argv << endl;
+	}
 };
 #endif

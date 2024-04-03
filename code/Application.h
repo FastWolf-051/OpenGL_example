@@ -2,9 +2,11 @@
 #if !defined(Application)
 #define Application
 #define null 0
+#define AppWait cin.get
 typedef unsigned int UnInt;
 typedef const char* CharArray;
 using namespace std;
+
 namespace App {
 	static void framebuffer_size_callback(GLFWwindow* window, __int16 width, __int16 height) {
 		glViewport(null, null, width, height);

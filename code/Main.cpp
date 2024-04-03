@@ -6,8 +6,9 @@
 
 using namespace std;
 
-int main() {
-	DebugCmd::SetBGColor(14);
+int main(const int argc,const char* argv[]) {
+	DebugCmd::SetBGColor(2);
+	DebugCmd::GetAppPath(argv[0]);
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -60,19 +61,19 @@ int main() {
 	else{
 		DebugCmd::DisplayLog("VertexShader compiled");
 	}
-	unsigned int fragmentShader;
+	UnInt fragmentShader;
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragmentShader, 1, &fragmentShaderSource, null);
 	glCompileShader(fragmentShader);
 	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &App::sucsess);
 	if (!App::sucsess) {
 		glGetShaderInfoLog(fragmentShader, 512, null, App::infoLog);
-		cout << "FragmentShader compiling error" << endl;
+		DebugCmd::DisplayError("FragmentShader compiling error");
 	}
 	else {
-		cout << "FragmentShader compiled" << endl;
+		DebugCmd::DisplayLog("FragmentShader compiled");
 	}
-	unsigned int shaderProgram;
+	UnInt shaderProgram;
 	shaderProgram = glCreateProgram();
 	glAttachShader(shaderProgram, vertexShader);
 	glAttachShader(shaderProgram, fragmentShader);
@@ -87,7 +88,7 @@ int main() {
 	while (!glfwWindowShouldClose(Window)) {
 		DebugCmd::CmdTitle("App Debug");
 		App::processInput(Window);
-		glClearColor(0.6f, 0.9f, 0.8f, 1.0f);
+		glClearColor(0.9f, 0.7f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
@@ -98,7 +99,8 @@ int main() {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteProgram(shaderProgram);
-	cout << "Window closed";
+	DebugCmd::DisplayLog("Window closed");
 	glfwTerminate();
+	AppWait();
 	return null;
 }
